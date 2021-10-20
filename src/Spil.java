@@ -81,12 +81,12 @@ public class Spil {
                 pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst2.toUpperCase(), 70);
                 break;
             }
-            if (spiller1.konto.getBalance() <= 0) {
+            if (spiller1.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
                 pokemonTekstPrint(RØD_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
                 pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 70);
-            } else if (spiller2.konto.getBalance() <= 0) {
+            } else if (spiller2.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
                 pokemonTekstPrint(RØD_BAGGRUND + spiller2.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
