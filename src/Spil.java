@@ -8,7 +8,7 @@ public class Spil {
     public static final String SORT_SKRIFT = "\u001B[30m";
     public static final String GUL_BAGGRUND = "\u001B[43m";
     public static final String FED_SKRIFT = "\033[0;1m";
-    public static final String RØD_BAGGRUND = "\u001B[41m";
+    public static final String ROED_BAGGRUND = "\u001B[41m";
     private Clip clip;
 
     public static void main(String[] args) {
@@ -16,18 +16,18 @@ public class Spil {
         spil.welcome();
     }
 
-    Felt maldiverne = new Felt(0, "Maldiverne", 0, false, 1);
-    Felt tower = new Felt(1, "tower", 250, false, 2);
-    Felt crater = new Felt(2, "Crater", -100, false, 3);
-    Felt palace_gates = new Felt(3, "Palace Gates", 100, false, 4);
-    Felt cold_desert = new Felt(4, "Cold Desert", -20, false, 5);
-    Felt walled_city = new Felt(5, "Walled City", 180, false, 6);
-    Felt monastery = new Felt(6, "Monastery", 0, false, 7);
-    Felt black_cave = new Felt(7, "Black Cave", -70, false, 8);
-    Felt huts_in_the_mountain = new Felt(8, "Huts In The Mountain", 60, false, 9);
-    Felt the_werewall = new Felt(9, "The Werewall", -80, true, 10);
-    Felt the_pit = new Felt(10, "The Pit", -50, false, 11);
-    Felt goldmine = new Felt(11, "Goldmine", 650, false, 12);
+    Felt maldiverne = new Felt(0, "Maldiverne", 0, false, 1, "Velkommen til maldiverne. Du har nu mistet hele din formue. Din balance er på: ");
+    Felt tower = new Felt(1, "tower", 250, false, 2, "Du har fundet 250kr i tårnet! Din balance er på: ");
+    Felt crater = new Felt(2, "Crater", -100, false, 3, "Øv, du har tabt 100kr i krateret. Din balance er på: ");
+    Felt palace_gates = new Felt(3, "Palace Gates", 100, false, 4, "Du har lige fundet 100kr ved paladsets porte! Din balance er på: ");
+    Felt cold_desert = new Felt(4, "Cold Desert", -20, false, 5, "Du har mistet 20kr i den kolde ørken.. Din balance er på: ");
+    Felt walled_city = new Felt(5, "Walled City", 180, false, 6,"Du har lige fundet 180kr i Walled City! Din balance er på: ");
+    Felt monastery = new Felt(6, "Monastery", 0, false, 7, "Du har hverken mistet eller fundet noget i klosteret.. Heldigt eller uheldigt? Din balance er på: ");
+    Felt black_cave = new Felt(7, "Black Cave", -70, false, 8, "Du har gjort 70kr væk i den sorte hule.. Din balance er på: ");
+    Felt huts_in_the_mountain = new Felt(8, "Huts In The Mountain", 60, false, 9, "Du har fundet 60kr i hytterne på bjerget! Din balance er på: ");
+    Felt the_werewall = new Felt(9, "The Werewall", -80, true, 10, "Du har fået stjålet 80kr ved varulve-væggen.. Din balance er på: ");
+    Felt the_pit = new Felt(10, "The Pit", -50, false, 11,"Har du lige tabt 50kr i hullet?.. Det var godt nok uheldigt.. Din balance er på: ");
+    Felt goldmine = new Felt(11, "Goldmine", 650, false, 12, "Du har fundet guld til 650kr i minen! Din balance er på: ");
 
     public void welcome() {
         afspilAudio("src/musik.wav");
@@ -36,11 +36,11 @@ public class Spil {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
         if (input.equalsIgnoreCase("s")) {
-            kørSpil();
+            runGame();
         }
     }
 
-    public void kørSpil() {
+    public void runGame() {
         Spiller spiller1 = new Spiller("player 1", 1000, 0);
         Spiller spiller2 = new Spiller("player 2", 1000, 0);
         Scanner scanner = new Scanner(System.in);
@@ -67,7 +67,6 @@ public class Spil {
             if (spiller1.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
-                System.out.println("");
                 String vindertekst;
                 vindertekst = "VINDEREN ER " + spiller1.getName() + "! tillykke shab :)";
                 pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst.toUpperCase(), 70);
@@ -75,7 +74,6 @@ public class Spil {
             } else if (spiller2.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
-                System.out.println("");
                 String vindertekst2;
                 vindertekst2 = "VINDEREN ER " + spiller2.getName() + "! tillykke shab :)";
                 pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst2.toUpperCase(), 70);
@@ -84,12 +82,12 @@ public class Spil {
             if (spiller1.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
-                pokemonTekstPrint(RØD_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
+                pokemonTekstPrint(ROED_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
                 pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 70);
             } else if (spiller2.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
-                pokemonTekstPrint(RØD_BAGGRUND + spiller2.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
+                pokemonTekstPrint(ROED_BAGGRUND + spiller2.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
                 pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 70);
             }
         }
@@ -129,53 +127,53 @@ public class Spil {
     public void flows(Spiller s) {
         if (s.getPosition() == maldiverne.getPosition()) {
             s.konto.setBalance(0);
-            pokemonTekstPrint("Velkommen til maldiverne. Du har nu mistet hele din formue. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(maldiverne.getDescription() + s.konto.getBalance(), 70);
         }
         if (s.getPosition() == tower.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + tower.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har fundet 250kr i tårnet! Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint( tower.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == crater.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + crater.getInfluenceOnBalance());
-            pokemonTekstPrint("Øv, du har tabt 100kr i krateret. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(crater.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == palace_gates.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + palace_gates.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har lige fundet 100kr ved paladsets porte! Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(palace_gates.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == cold_desert.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + cold_desert.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har mistet 20kr i den kolde ørken.. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(cold_desert.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == walled_city.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + walled_city.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har lige fundet 180kr i Walled City! Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(walled_city.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == monastery.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + monastery.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har hverken mistet eller fundet noget i klosteret.. Heldigt eller uheldigt? Din balance er på:  " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(monastery.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == black_cave.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + black_cave.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har gjort 70kr væk i den sorte hule.. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(black_cave.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == huts_in_the_mountain.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + huts_in_the_mountain.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har fundet 60kr i hytterne på bjerget! Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(huts_in_the_mountain.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == the_werewall.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + the_werewall.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har fået stjålet 80kr ved varulve-væggen.. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(the_werewall.getDescription() + s.konto.getBalance(), 70);
             pokemonTekstPrint("Men bare rolig, du får også en ekstra tur!", 70);
             playerTurn(s);
 
         } else if (s.getPosition() == the_pit.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + the_pit.getInfluenceOnBalance());
-            pokemonTekstPrint("Har du lige tabt 50kr i hullet?.. Det var godt nok uheldigt.. Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(the_pit.getDescription() + s.konto.getBalance(), 70);
 
         } else if (s.getPosition() == goldmine.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + goldmine.getInfluenceOnBalance());
-            pokemonTekstPrint("Du har fundet guld til 650kr i minen! Din balance er på: " + s.konto.getBalance(), 70);
+            pokemonTekstPrint(goldmine.getDescription() + s.konto.getBalance(), 70);
         }
     }
 
