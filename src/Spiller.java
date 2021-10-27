@@ -2,7 +2,7 @@ public class Spiller {
     private String name;
     private int position;
     Konto konto = new Konto();
-    Terning terninger = new Terning();
+
 
     public Spiller (String name, int balance, int position) {
         this.name = name;

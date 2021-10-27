@@ -31,8 +31,8 @@ public class Spil {
 
     public void welcome() {
         afspilAudio("src/musik.wav");
-        pokemonTekstPrint(FED_SKRIFT + "Velkommen til del 2 af CDIO projektet.", 70);
-        pokemonTekstPrint("Tast 's' for at starte spillet.", 70);
+        pokemonTekstPrint(FED_SKRIFT + "Velkommen til del 2 af CDIO projektet.", 40);
+        pokemonTekstPrint("Tast 's' for at starte spillet.", 40);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
         if (input.equalsIgnoreCase("s")) {
@@ -43,77 +43,71 @@ public class Spil {
     public void runGame() {
         Spiller spiller1 = new Spiller("player 1", 1000, 0);
         Spiller spiller2 = new Spiller("player 2", 1000, 0);
+        Terning terninger = new Terning();
         Scanner scanner = new Scanner(System.in);
         introduction(spiller1, spiller2);
 
         while (spiller1.konto.getBalance() < 3000 || spiller2.konto.getBalance() < 3000) {
             String input = scanner.next();
-            if (input.equalsIgnoreCase("a")) {
-                playerTurn(spiller1);
-            }
-            if (input.equalsIgnoreCase("l")) {
-                playerTurn(spiller2);
-            }
+            if (input.equalsIgnoreCase("a")) { playerTurn(spiller1, terninger); }
+            if (input.equalsIgnoreCase("l")) { playerTurn(spiller2, terninger); }
             if (input.equalsIgnoreCase("e")) {
-                pokemonTekstPrint("Spillet er blevet afsluttet. Tak fordi I spillede!", 70);
-                break;
-            }
+                pokemonTekstPrint("Spillet er blevet afsluttet. Tak fordi I spillede!", 50);
+                break; }
             if (input.equalsIgnoreCase("r")) {
-                pokemonTekstPrint("Spillet bliver genstartet. Vent et øjeblik.", 70);
+                pokemonTekstPrint("Spillet bliver genstartet. Vent et øjeblik.", 50);
                 pause(3000);
                 stopAudio();
-                welcome();
-            }
+                welcome(); }
             if (spiller1.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
                 String vindertekst;
                 vindertekst = "VINDEREN ER " + spiller1.getName() + "! tillykke shab :)";
-                pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst.toUpperCase(), 70);
+                pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst.toUpperCase(), 50);
                 break;
             } else if (spiller2.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
                 String vindertekst2;
                 vindertekst2 = "VINDEREN ER " + spiller2.getName() + "! tillykke shab :)";
-                pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst2.toUpperCase(), 70);
-                break;
-            }
+                pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst2.toUpperCase(), 50);
+                break; }
             if (spiller1.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
-                pokemonTekstPrint(ROED_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
-                pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 70);
+                pokemonTekstPrint(ROED_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 50);
+                pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 50);
             } else if (spiller2.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
-                pokemonTekstPrint(ROED_BAGGRUND + spiller2.getName() + ", din lille loser, man. Du har tabt til din yngre", 70);
-                pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 70);
+                pokemonTekstPrint(ROED_BAGGRUND + spiller2.getName() + ", din lille loser, man. Du har tabt til din yngre", 50);
+                pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 50);
             }
         }
     }
 
     public void introduction(Spiller s1, Spiller s2) {
-        pokemonTekstPrint("For at afslutte spillet når som helst, kan I taste 'e'. For at genstarte når som helst, kan I taste 'r'", 70);
-        pokemonTekstPrint("Dette spil kræver to spillere. Hvad skal vi kalde dig, spiller 1?: ", 70);
+        pokemonTekstPrint("For at afslutte spillet når som helst, kan I taste 'e'. For at genstarte når som helst, kan I taste 'r'", 40);
+        pokemonTekstPrint("Dette spil kræver to spillere. Hvad skal vi kalde dig, spiller 1?: ", 40);
         Scanner scanner = new Scanner(System.in);
         String name1 = scanner.next();
         s1.setName(name1);
         pause(200);
-        pokemonTekstPrint("Velkommen, " + s1.getName() + "!", 70);
-        pokemonTekstPrint("Hvad skal vi kalde dig, spiller 2?: ", 70);
+        pokemonTekstPrint("Velkommen, " + s1.getName() + "!", 50);
+        pokemonTekstPrint("Hvad skal vi kalde dig, spiller 2?: ", 50);
         String name2 = scanner.next();
         s2.setName(name2);
         pause(200);
-        pokemonTekstPrint("Velkommen, " + s2.getName() + "!", 70);
-        pokemonTekstPrint(name1 + ", når du vil slå, skal du bruge tasten 'a'. " + name2 + ", når du vil slå, skal du bruge tasten 'l'.", 70);
-        pokemonTekstPrint(name1 + ", du starter.", 70);
+        pokemonTekstPrint("Velkommen, " + s2.getName() + "!", 50);
+        pokemonTekstPrint(name1 + ", når du vil slå, skal du bruge tasten 'a'. " + name2 + ", når du vil slå, skal du bruge tasten 'l'.", 40);
+        pokemonTekstPrint(name1 + ", du starter.", 40);
     }
 
-    public void playerTurn(Spiller s) {
-        s.terninger.diceRoll();
-        pokemonTekstPrint("Du har slået: " + s.terninger.diceRoll(), 70);
-        s.updatePosition(s.terninger.getFaceValueSum(), s.getPosition());
+    public void playerTurn(Spiller s, Terning t) {
+        t.diceRoll();
+        pokemonTekstPrint("Du har slået: " + t.diceRoll(), 70);
+        s.updatePosition(t.getFaceValueSum(), s.getPosition());
         if (s.getPosition() <= 12) {
             pokemonTekstPrint("Din position er nu: " + s.getPosition(), 70);
         }
@@ -121,15 +115,15 @@ public class Spil {
             s.setPosition(s.getPosition() - 12);
             pokemonTekstPrint("Din position er nu: " + s.getPosition(), 70);
         }
-        flows(s);
+        flows(s, t);
     }
 
-    public void flows(Spiller s) {
+    public void flows(Spiller s, Terning t) {
         if (s.getPosition() == maldiverne.getPosition()) {
             s.konto.setBalance(0);
             pokemonTekstPrint(maldiverne.getDescription() + s.konto.getBalance(), 70);
-        }
-        if (s.getPosition() == tower.getPosition()) {
+
+        } else if (s.getPosition() == tower.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + tower.getInfluenceOnBalance());
             pokemonTekstPrint( tower.getDescription() + s.konto.getBalance(), 70);
 
@@ -165,9 +159,7 @@ public class Spil {
             s.konto.setBalance(s.konto.getBalance() + the_werewall.getInfluenceOnBalance());
             pokemonTekstPrint(the_werewall.getDescription() + s.konto.getBalance(), 70);
             pokemonTekstPrint("Men bare rolig, du får også en ekstra tur!", 70);
-            playerTurn(s);
-
-        } else if (s.getPosition() == the_pit.getPosition()) {
+            playerTurn(s, t); } else if (s.getPosition() == the_pit.getPosition()) {
             s.konto.setBalance(s.konto.getBalance() + the_pit.getInfluenceOnBalance());
             pokemonTekstPrint(the_pit.getDescription() + s.konto.getBalance(), 70);
 
