@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Spil {
+    //Ekstra (unødvendig) design/brugeroplevelse beslutning. Skrifttype, -farve og baggrundsfarve på tekst.
     public static final String SORT_SKRIFT = "\u001B[30m";
     public static final String GUL_BAGGRUND = "\u001B[43m";
     public static final String FED_SKRIFT = "\033[0;1m";
@@ -16,6 +17,7 @@ public class Spil {
         spil.welcome();
     }
 
+    //Felt instantieres
     Felt maldiverne = new Felt(0, "Maldiverne", 0, false, 1, "Velkommen til maldiverne. Du har nu mistet hele din formue. Din balance er på: ");
     Felt tower = new Felt(1, "tower", 250, false, 2, "Du har fundet 250kr i tårnet! Din balance er på: ");
     Felt crater = new Felt(2, "Crater", -100, false, 3, "Øv, du har tabt 100kr i krateret. Din balance er på: ");
@@ -29,17 +31,22 @@ public class Spil {
     Felt the_pit = new Felt(10, "The Pit", -50, false, 11,"Har du lige tabt 50kr i hullet?.. Det var godt nok uheldigt.. Din balance er på: ");
     Felt goldmine = new Felt(11, "Goldmine", 650, false, 12, "Du har fundet guld til 650kr i minen! Din balance er på: ");
 
+    //Metode til at give en velkomst til spillerne
     public void welcome() {
+        //Metode afspilAudio til at afspille baggrundsmusik for spillet
         afspilAudio("src/musik.wav");
         pokemonTekstPrint(FED_SKRIFT + "Velkommen til del 2 af CDIO projektet.", 40);
         pokemonTekstPrint("Tast 's' for at starte spillet.", 40);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.next();
+
+        //Hvis der bliver tastet s som input uanset om det er et stort eller småt bogstav, vil metoden runGame() blive kørt
         if (input.equalsIgnoreCase("s")) {
             runGame();
         }
     }
 
+    //Metode som samler hele spillet, her bliver bl.a. spiller og terning instantieret
     public void runGame() {
         Spiller spiller1 = new Spiller("player 1", 1000, 0);
         Spiller spiller2 = new Spiller("player 2", 1000, 0);
@@ -47,18 +54,24 @@ public class Spil {
         Scanner scanner = new Scanner(System.in);
         introduction(spiller1, spiller2);
 
+        //Sørger for at spillet kører indtil en af spillerne får over 3000 point
         while (spiller1.konto.getBalance() < 3000 || spiller2.konto.getBalance() < 3000) {
             String input = scanner.next();
+            //Spiller 1's input
             if (input.equalsIgnoreCase("a")) { playerTurn(spiller1, terninger); }
+            //Spiller 2's input
             if (input.equalsIgnoreCase("l")) { playerTurn(spiller2, terninger); }
+            //For at afslutte spillet
             if (input.equalsIgnoreCase("e")) {
                 pokemonTekstPrint("Spillet er blevet afsluttet. Tak fordi I spillede!", 50);
                 break; }
+            //For at genstarte spillet
             if (input.equalsIgnoreCase("r")) {
                 pokemonTekstPrint("Spillet bliver genstartet. Vent et øjeblik.", 50);
                 pause(3000);
                 stopAudio();
                 welcome(); }
+            //Hvis spiller 1 får = 3000 eller >3000 point køres denne del
             if (spiller1.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
@@ -66,6 +79,7 @@ public class Spil {
                 vindertekst = "VINDEREN ER " + spiller1.getName() + "! tillykke shab :)";
                 pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst.toUpperCase(), 50);
                 break;
+                //Hvis i stedet spiller 2 får = 3000 eller >3000 point køres denne del
             } else if (spiller2.konto.getBalance() >= 3000) {
                 stopAudio();
                 afspilAudio("src/vindermusik.wav");
@@ -73,11 +87,13 @@ public class Spil {
                 vindertekst2 = "VINDEREN ER " + spiller2.getName() + "! tillykke shab :)";
                 pokemonTekstPrint(GUL_BAGGRUND + SORT_SKRIFT + vindertekst2.toUpperCase(), 50);
                 break; }
+            //Hvis spiller 1 får en negativ balance køres dette
             if (spiller1.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
                 pokemonTekstPrint(ROED_BAGGRUND + spiller1.getName() + ", din lille loser, man. Du har tabt til din yngre", 50);
                 pokemonTekstPrint("Er det en ommer din taber? Tast 'r' for at genstarte spillet, ellers tast 'e'", 50);
+                //Hvis i stedet spiller 2 får en negativ balance køres dette
             } else if (spiller2.konto.getBalance() < 0) {
                 stopAudio();
                 afspilAudio("src/taberMusik.wav");
@@ -87,6 +103,7 @@ public class Spil {
         }
     }
 
+    //Denne metode gemmer spillernes navne og introducerer deres dedikerede input taster
     public void introduction(Spiller s1, Spiller s2) {
         pokemonTekstPrint("For at afslutte spillet når som helst, kan I taste 'e'. For at genstarte når som helst, kan I taste 'r'", 40);
         pokemonTekstPrint("Dette spil kræver to spillere. Hvad skal vi kalde dig, spiller 1?: ", 40);
@@ -104,13 +121,19 @@ public class Spil {
         pokemonTekstPrint(name1 + ", du starter.", 40);
     }
 
+    //Metode til at vælge hvis tur det er til at spille
     public void playerTurn(Spiller s, Terning t) {
+        //metode til at slå med den givne spillers givne terninger
         t.diceRoll();
         pokemonTekstPrint("Du har slået: " + t.diceRoll(), 70);
         s.updatePosition(t.getFaceValueSum(), s.getPosition());
         if (s.getPosition() <= 12) {
             pokemonTekstPrint("Din position er nu: " + s.getPosition(), 70);
         }
+        /*
+        For at sikre spillerne kan rykke rundt på felterne i en cyklus skrives denne del, hvor 12 ( som er antallet af felter)
+       bliver trukket fra den samlede position. Dette gør, at spillerne også kan ramme felt 1
+        */
         if (s.getPosition() > 12) {
             s.setPosition(s.getPosition() - 12);
             pokemonTekstPrint("Din position er nu: " + s.getPosition(), 70);
@@ -118,6 +141,9 @@ public class Spil {
         flows(s, t);
     }
 
+    /*
+    Alle de forskellige flows i spillet. Spillerens position sammenlignes med feltets position. Hvis de er ens, køres den tilhørende kode
+     */
     public void flows(Spiller s, Terning t) {
         if (s.getPosition() == maldiverne.getPosition()) {
             s.konto.setBalance(0);
@@ -169,6 +195,7 @@ public class Spil {
         }
     }
 
+    //Ekstra (unødvendig) design/brugeroplevelse beslutning. Gør at spillet kan pause i et antal millisekunder før der blive printet mere
     public static void pause(int ms) {
         try {
             Thread.sleep(ms);
@@ -177,6 +204,10 @@ public class Spil {
         }
     }
 
+    /*
+    Ekstra (unødvendig) design/brugeroplevelse beslutning. Lidt ligesom pokémon spil på gameboy, hvor
+    tekst printes på en anderledes måde
+     */
     public void pokemonTekstPrint(String tekst, long ms) {
         for (int bogstaver = 0; bogstaver < tekst.length(); bogstaver++) {
             System.out.print(tekst.charAt(bogstaver));
@@ -185,10 +216,12 @@ public class Spil {
         System.out.println(" ");
     }
 
+    //Stopper kørende lydklip
     public void stopAudio() {
         clip.stop();
     }
 
+    //Afspiller et lydklip fra et en given filplacering
     public void afspilAudio(String filepath) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filepath));

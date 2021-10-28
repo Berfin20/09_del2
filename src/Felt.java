@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Felt {
 
+    //Attributter
     private String name;
     private int influenceOnBalance;
     private boolean extraTurn;
@@ -9,6 +10,7 @@ public class Felt {
     private int id;
     private String description;
 
+    //Constructor for at initialisere attributter
     public Felt(int id, String name, int influenceOnBalance, boolean extraTurn, int position, String description){
         this.id = id;
         this.name = name;
@@ -50,6 +52,7 @@ public class Felt {
 //        return felter;
 //    }
 
+    //getters og setters
     public String getName() {
         return name;
     }
